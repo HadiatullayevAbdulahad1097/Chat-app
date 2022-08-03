@@ -1,0 +1,20 @@
+pluginManagement {
+    repositories {
+        //noinspection JcenterRepositoryObsolete
+        jcenter()
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        //noinspection JcenterRepositoryObsolete
+        jcenter()
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "Chat App"
+include ':app'
