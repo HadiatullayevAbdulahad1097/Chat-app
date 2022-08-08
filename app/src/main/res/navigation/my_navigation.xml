@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_splashFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_registrationFragment2"
+            app:destination="@id/registrationFragment2" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -54,5 +57,10 @@
         android:name="developer.abdulahad.chatapp.ChatsFragment"
         android:label="fragment_chats"
         tools:layout="@layout/fragment_chats" />
+    <fragment
+        android:id="@+id/registrationFragment2"
+        android:name="developer.abdulahad.chatapp.RegistrationFragment2"
+        android:label="fragment_registration2"
+        tools:layout="@layout/fragment_registration2" />
 
 </navigation>

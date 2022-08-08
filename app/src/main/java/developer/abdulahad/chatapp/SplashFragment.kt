@@ -24,12 +24,10 @@ class SplashFragment : Fragment() {
     ): View? {
         binding = FragmentSplashBinding.inflate(layoutInflater)
 
-        if (android.os.Build.VERSION.SDK_INT >= 21){
-            val window = requireActivity().window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = Color.parseColor("#FDB728")
-        }
+        val window = requireActivity().window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = Color.parseColor("#FDB728")
 
         binding.send.startAnimation(AnimationUtils.loadAnimation(binding.root.context,R.anim.alpha))
         binding.ellipse.startAnimation(AnimationUtils.loadAnimation(binding.root.context,R.anim.alpha))

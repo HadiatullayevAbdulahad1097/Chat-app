@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
@@ -54,6 +55,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:gravity="left|center"
                 app:layout_constraintLeft_toRightOf="@id/image"
                 app:layout_constraintRight_toRightOf="parent"
                 >
@@ -63,18 +65,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_15sdp"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/app_name"
-                    android:textColor="#7C000000" />
+                    android:textColor="#000000" />
 
                 <TextView
-                    android:id="@+id/about"
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/app_name"
-                    android:textColor="#7C000000" />
+                    android:text="00:00"
+                    />
 
             </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.StyleRes
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -17,7 +18,6 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.*
 import developer.abdulahad.chatapp.Models.MyData
-import developer.abdulahad.chatapp.Models.MyObject
 import developer.abdulahad.chatapp.Models.User
 import developer.abdulahad.chatapp.databinding.FragmentRegistrationBinding
 import java.util.concurrent.TimeUnit
@@ -25,144 +25,81 @@ import java.util.concurrent.TimeUnit
 class RegistrationFragment : Fragment() {
     lateinit var binding: FragmentRegistrationBinding
     lateinit var auth: FirebaseAuth
-    lateinit var storedVerificationId: String
-    lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     lateinit var firebaseDatabase: FirebaseDatabase
-    lateinit var databaseReference: DatabaseReference
-    lateinit var user: User
+    lateinit var reference: DatabaseReference
+    lateinit var list: ArrayList<User>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegistrationBinding.inflate(layoutInflater)
 
-        firebaseDatabase = FirebaseDatabase.getInstance()
-        databaseReference = firebaseDatabase.getReference("users")
-        if (android.os.Build.VERSION.SDK_INT >= 21) {
-            val window = requireActivity().window
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = Color.parseColor("#00DDFF")
-        }
-
+        val window = requireActivity().window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.statusBarColor = Color.parseColor("#0091EA")
 
         auth = FirebaseAuth.getInstance()
-        MyObject.init(binding.root.context)
-        MyData.init(binding.root.context)
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        reference = firebaseDatabase.getReference("users")
 
-        if (MyObject.list.isEmpty()) {
-            binding.btnSend.setOnClickListener {
-                try {
-                    val number = binding.edtNumber.text.toString()
-                    if (number.length == 13 &&
-                        number.substring(0, 4) == "+998" &&
-                        binding.edtName.text!!.isNotEmpty() &&
-                        binding.edtLastname.text!!.isNotEmpty()
-                    ) {
-                        user = User()
-                        user.name = binding.edtName.text.toString()
-                        user.lastName = binding.edtLastname.text.toString()
-                        user.number = binding.edtNumber.text.toString()
+        list = ArrayList()
 
-                        sendVerificationCode(number)
-                    } else {
-                        Toast.makeText(
-                            binding.root.context,
-                            "Sms gacha yozgan malumotingizni tekshiring",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-//                else{
-//                    resentCode(number)
-//                }
-                }catch (e:Exception){
-
+        binding.apply {
+            btnLogin.setOnClickListener {
+                val email = "${edtEmail.text!!}@gmail.com"
+                val password = edtPasword.text!!.toString()
+                if (email.trim().isNotEmpty() && password.trim().isNotEmpty()) {
+                    login(email, password)
+                } else {
+                    Toast.makeText(
+                        binding.root.context,
+                        "Email or Password is Empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
-            } else {
-                findNavController().popBackStack()
-                findNavController().navigate(R.id.groupAndUsersFragment)
+            btnSignIn.setOnClickListener {
+                findNavController().navigate(R.id.registrationFragment2)
             }
 
-        binding.edtSmsCode.addTextChangedListener {
-            if (it.toString().length == 6) {
-                verifyCode()
-            }
+            reference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    list.clear()
+                    for (child in snapshot.children) {
+                        var value = child.getValue(User::class.java)
+                        if (value != null) {
+                            list.add(value)
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
         }
 
         return binding.root
     }
 
-    private fun verifyCode() {
-        try {
-            val credential =
-                PhoneAuthProvider.getCredential(
-                    storedVerificationId,
-                    binding.edtSmsCode.text.toString()
-                )
-            signInWithPhoneAuthCredential(credential)
-        } catch (e: Exception) {
-            Toast.makeText(binding.root.context, e.message, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun sendVerificationCode(phoneNumber: String) {
-        val option = PhoneAuthOptions.newBuilder(auth)
-            .setPhoneNumber(phoneNumber)
-            .setTimeout(60L, TimeUnit.SECONDS)
-            .setActivity(requireActivity())
-            .setCallbacks(callback)
-            .build()
-        PhoneAuthProvider.verifyPhoneNumber(option)
-    }
-
-    private val callback = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-            signInWithPhoneAuthCredential(p0)
-        }
-
-        override fun onVerificationFailed(p0: FirebaseException) {
-
-        }
-
-        override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
-            super.onCodeSent(p0, p1)
-            storedVerificationId = p0
-            resendToken = p1
-        }
-    }
-
-    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        auth.signInWithCredential(credential)
+    fun login(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    val list = MyObject.list
-                    user.uid = auth.currentUser?.uid!!
-                    databaseReference.child(auth.currentUser?.uid!!).setValue(user)
-                    MyData.name = "|${user.name}||/${user.lastName}//."
-                    Toast.makeText(binding.root.context, "Muvaffaqiyatli", Toast.LENGTH_SHORT)
-                        .show()
-                    list.clear()
-                    list.add(MyObject.number)
-                    MyObject.list = list
                     findNavController().popBackStack()
                     findNavController().navigate(R.id.groupAndUsersFragment)
+                    Toast.makeText(binding.root.context, "Successful", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(binding.root.context, "Muvaffaqiyatsiz", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        binding.root.context,
+                        "Failed or @gmail.com is available",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             }
     }
 }
-//
-//    private fun resentCode(phoneNimber: String) {
-//        val options = PhoneAuthOptions.newBuilder(auth)
-//            .setPhoneNumber(phoneNimber)
-//            .setTimeout(60L, TimeUnit.SECONDS)
-//            .setActivity(requireActivity())
-//            .setCallbacks(callback)
-//            .setForceResendingToken(resendToken)
-//            .build()
-//        PhoneAuthProvider.verifyPhoneNumber(options)
-//    }

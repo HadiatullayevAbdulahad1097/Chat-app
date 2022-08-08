@@ -12,9 +12,7 @@ import com.google.gson.reflect.TypeToken
 import developer.abdulahad.chatapp.MainActivity
 
 object MyObject {
-    var number = ""
-    var user = User()
-    var position = 0
+    var list = ArrayList<User>()
 
     fun getUid():String{
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -27,28 +25,12 @@ object MyObject {
         map["online"]=status
         databaseReference.updateChildren(map)
     }
-
-    private lateinit var sp: SharedPreferences
-    fun init(c: Context) {
-        sp = c.getSharedPreferences("name", Context.MODE_PRIVATE)
+    fun updateTime(time: String){
+        val databaseReference = FirebaseDatabase.getInstance().getReference("users").child(getUid())
+        val map = HashMap<String,Any>()
+        map["time"]=time
+        databaseReference.updateChildren(map)
     }
-
-    private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
-        val editor = edit()
-        operation(editor)
-        editor.apply()
-    }
-
-    var list: ArrayList<String>
-        get() = gsonStringToList(sp.getString("keyList", "[]")!!)
-        set(value) = sp.edit {
-            it.putString("keyList", listToGsonString(value))
-        }
-
-    private fun gsonStringToList(gsonString: String): ArrayList<String> =
-        Gson().fromJson(gsonString, object : TypeToken<ArrayList<String>>() {}.type)
-
-    private fun listToGsonString(list: ArrayList<String>): String = Gson().toJson(list)
 }
 
 object MyData {

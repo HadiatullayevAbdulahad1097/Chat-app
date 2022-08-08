@@ -35,16 +35,11 @@ class UsersFragment : Fragment() {
         databaseReference = firebaseDatabase.getReference("users")
 
         list = ArrayList()
-        rvAdapter = RvAdapter(list,auth,object : RvAdapter.ClickInterface{
+        rvAdapter = RvAdapter(binding.root.context,list,auth,object : RvAdapter.ClickInterface{
             override fun clickItem(user: User, position: Int) {
-                if (auth.currentUser!!.uid == user.uid){
-                    user.image = R.drawable.ozim
-                }else{
-                    user.image = R.color.default_color
-                }
                 findNavController().navigate(R.id.chatsFragment, bundleOf("keyUser" to user,"lichka" to true))
             }
-        },false)
+        })
         binding.rv.adapter = rvAdapter
 
         databaseReference.addValueEventListener(object : ValueEventListener{

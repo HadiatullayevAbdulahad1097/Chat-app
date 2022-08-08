@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.1697061803444782" />
         <entry key="app/src/main/res/drawable/backround.xml" value="0.1675" />
         <entry key="app/src/main/res/drawable/edt_backround.xml" value="0.1675" />
         <entry key="app/src/main/res/drawable/i_am_send_backround.xml" value="0.1675" />
@@ -12,6 +13,7 @@
         <entry key="app/src/main/res/layout/fragment_group_and_users.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/fragment_groups.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.2733812949640288" />
+        <entry key="app/src/main/res/layout/fragment_registration2.xml" value="0.3229166666666667" />
         <entry key="app/src/main/res/layout/fragment_registration_number_sms.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/fragment_users.xml" value="0.3326080322265625" />
