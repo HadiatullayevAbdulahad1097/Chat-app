@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -61,23 +62,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/music"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:cardCornerRadius="@dimen/_15sdp"
-        app:cardElevation="@dimen/_10sdp"
-        app:cardBackgroundColor="@color/default_color"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_50sdp"
         android:visibility="gone"
-        android:layout_marginRight="@dimen/_70sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/send_me_music"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        >
+        tools:ignore="RtlHardcoded">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pause_play"
@@ -88,6 +84,6 @@
             android:layout_margin="@dimen/_5sdp"
             />
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

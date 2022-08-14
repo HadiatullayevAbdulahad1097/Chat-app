@@ -5,10 +5,14 @@
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.1697061803444782" />
         <entry key="app/src/main/res/drawable/backround.xml" value="0.1675" />
+        <entry key="app/src/main/res/drawable/bottom.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/edt_backround.xml" value="0.1675" />
         <entry key="app/src/main/res/drawable/i_am_send_backround.xml" value="0.1675" />
+        <entry key="app/src/main/res/drawable/i_am_send_music.xml" value="0.1685" />
         <entry key="app/src/main/res/drawable/send_me_background.xml" value="0.1675" />
+        <entry key="app/src/main/res/drawable/send_me_music.xml" value="0.1685" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3046875" />
+        <entry key="app/src/main/res/layout/bottom_item.xml" value="0.321875" />
         <entry key="app/src/main/res/layout/fragment_chats.xml" value="0.29631347656250007" />
         <entry key="app/src/main/res/layout/fragment_group_and_users.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/fragment_groups.xml" value="0.3229166666666667" />

@@ -43,6 +43,8 @@ class GroupAndUsersFragment : Fragment() {
     ): View {
         binding = FragmentGroupAndUsersBinding.inflate(layoutInflater)
 
+        MyObject.updateOnlineStatus("online")
+
         MyData.init(binding.root.context)
         firebaseStorage = FirebaseStorage.getInstance()
         storeReferences = firebaseStorage.getReference("images")
@@ -58,6 +60,7 @@ class GroupAndUsersFragment : Fragment() {
 
         binding.apply {
             firebaseDatabase = FirebaseDatabase.getInstance()
+
             reference = firebaseDatabase.getReference("users")
 
             reference.addListenerForSingleValueEvent(object : ValueEventListener{
@@ -123,10 +126,5 @@ class GroupAndUsersFragment : Fragment() {
         super.onPause()
         MyObject.updateOnlineStatus("offline")
         MyObject.updateTime(LocalTime.now().toString().substring(0,5))
-    }
-
-    override fun onResume() {
-        super.onResume()
-        MyObject.updateOnlineStatus("online")
     }
 }
