@@ -83,7 +83,6 @@
             android:src="@drawable/play"
             android:layout_margin="@dimen/_5sdp"
             />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
